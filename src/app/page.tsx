@@ -1,101 +1,239 @@
-import Image from "next/image";
+'use client'
 
-export default function Home() {
+import { useState, useEffect } from 'react'
+import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { CheckCircle2, Moon, Sun } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
+
+// Utility function to validate JSON
+function isValidJSON(str: string): boolean {
+  try {
+    JSON.parse(str);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+// Utility function to calculate diff between two JSON objects
+function jsonDiff(str1: string, str2: string): { left: string[], right: string[], hasDiff: boolean } {
+  const lines1 = str1.split('\n');
+  const lines2 = str2.split('\n');
+  const left: string[] = [];
+  const right: string[] = [];
+  let hasDiff = false;
+  let i = 0, j = 0;
+
+  while (i < lines1.length || j < lines2.length) {
+    if (i >= lines1.length) {
+      left.push('');
+      right.push(`+ ${lines2[j]}`);
+      j++;
+      hasDiff = true;
+    } else if (j >= lines2.length) {
+      left.push(`- ${lines1[i]}`);
+      right.push('');
+      i++;
+      hasDiff = true;
+    } else if (lines1[i] === lines2[j]) {
+      left.push(`  ${lines1[i]}`);
+      right.push(`  ${lines2[j]}`);
+      i++;
+      j++;
+    } else {
+      left.push(`- ${lines1[i]}`);
+      right.push(`+ ${lines2[j]}`);
+      i++;
+      j++;
+      hasDiff = true;
+    }
+  }
+
+  return { left, right, hasDiff };
+}
+
+function JsonValidator({ json, setJson, validate }: { json: string, setJson: (value: string) => void, validate: () => void }) {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="space-y-4">
+      <Textarea
+        placeholder="Enter JSON here..."
+        value={json}
+        onChange={(e) => setJson(e.target.value)}
+        rows={10}
+        className="font-mono text-sm"
+      />
+      <Button onClick={validate} className="w-full">Validate JSON</Button>
+    </div>
+  )
+}
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+function JsonDiff({ json1, setJson1, json2, setJson2, compare }: { 
+  json1: string, 
+  setJson1: (value: string) => void, 
+  json2: string, 
+  setJson2: (value: string) => void, 
+  compare: () => void 
+}) {
+  return (
+    <div className="space-y-4">
+      <div className="grid grid-cols-2 gap-4">
+        <Textarea
+          placeholder="Enter first JSON here..."
+          value={json1}
+          onChange={(e) => setJson1(e.target.value)}
+          rows={10}
+          className="font-mono text-sm"
+        />
+        <Textarea
+          placeholder="Enter second JSON here..."
+          value={json2}
+          onChange={(e) => setJson2(e.target.value)}
+          rows={10}
+          className="font-mono text-sm"
+        />
+      </div>
+      <Button onClick={compare} className="w-full">Compare JSON</Button>
+    </div>
+  )
+}
+
+function SideBySideDiffViewer({ diff }: { diff: { left: string[], right: string[] } }) {
+  return (
+    <div className="grid grid-cols-2 gap-4 rounded-lg overflow-hidden shadow-lg">
+      <pre className="bg-gray-100 dark:bg-gray-800 p-4 overflow-auto max-h-96 text-sm font-mono">
+        {diff.left.map((line, index) => {
+          let className = "block";
+          if (line.startsWith('-')) {
+            className += " text-red-600 bg-red-100 dark:text-red-400 dark:bg-red-900";
+          }
+          return (
+            <div key={`left-${index}`} className="flex">
+              <span className="w-8 inline-block text-gray-500 select-none">{index + 1}</span>
+              <span className={className}>{line}</span>
+            </div>
+          );
+        })}
+      </pre>
+      <pre className="bg-gray-100 dark:bg-gray-800 p-4 overflow-auto max-h-96 text-sm font-mono">
+        {diff.right.map((line, index) => {
+          let className = "block";
+          if (line.startsWith('+')) {
+            className += " text-green-600 bg-green-100 dark:text-green-400 dark:bg-green-900";
+          }
+          return (
+            <div key={`right-${index}`} className="flex">
+              <span className="w-8 inline-block text-gray-500 select-none">{index + 1}</span>
+              <span className={className}>{line}</span>
+            </div>
+          );
+        })}
+      </pre>
     </div>
   );
 }
+
+export default function JsonTool() {
+  const [json, setJson] = useState('')
+  const [json1, setJson1] = useState('')
+  const [json2, setJson2] = useState('')
+  const [result, setResult] = useState<{ type: 'validation' | 'diff' | 'error', content: string | { left: string[], right: string[] } }>({ type: 'validation', content: '' })
+  const [isDarkMode, setIsDarkMode] = useState(false)
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }, [isDarkMode])
+
+  const validateJson = () => {
+    if (isValidJSON(json)) {
+      setResult({ type: 'validation', content: 'Valid JSON' });
+    } else {
+      setResult({ type: 'validation', content: 'Invalid JSON' });
+    }
+  }
+
+  const compareJson = () => {
+    if (isValidJSON(json1) && isValidJSON(json2)) {
+      const formattedJson1 = JSON.stringify(JSON.parse(json1), null, 2);
+      const formattedJson2 = JSON.stringify(JSON.parse(json2), null, 2);
+      const { left, right, hasDiff } = jsonDiff(formattedJson1, formattedJson2);
+      
+      if (hasDiff) {
+        setResult({ type: 'diff', content: { left, right } });
+      } else {
+        setResult({ type: 'validation', content: 'No differences found. The JSON objects are identical.' });
+      }
+    } else {
+      setResult({ type: 'error', content: 'Both inputs must be valid JSON' });
+    }
+  }
+
+  return (
+    <div className={`min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-indigo-950 p-8 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
+      <Card className="w-full max-w-4xl mx-auto shadow-2xl">
+        <CardHeader className="relative">
+          <CardTitle className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500">JSON Validator and Diff Tool</CardTitle>
+          <CardDescription className="text-lg">Validate JSON syntax and compare two JSON objects</CardDescription>
+          <Button
+            variant="outline"
+            size="icon"
+            className="absolute top-4 right-4"
+            onClick={() => setIsDarkMode(!isDarkMode)}
+          >
+            {isDarkMode ? <Sun className="h-[1.2rem] w-[1.2rem]" /> : <Moon className="h-[1.2rem] w-[1.2rem]" />}
+          </Button>
+        </CardHeader>
+        <CardContent>
+          <Tabs defaultValue="validate" className="space-y-4">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="validate">Validate JSON</TabsTrigger>
+              <TabsTrigger value="diff">Compare JSON</TabsTrigger>
+            </TabsList>
+            <TabsContent value="validate">
+              <JsonValidator json={json} setJson={setJson} validate={validateJson} />
+            </TabsContent>
+            <TabsContent value="diff">
+              <JsonDiff json1={json1} setJson1={setJson1} json2={json2} setJson2={setJson2} compare={compareJson} />
+            </TabsContent>
+          </Tabs>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={result.type}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="mt-8"
+            >
+              <h3 className="text-xl font-semibold mb-4">Result:</h3>
+              {result.type === 'validation' && (
+                <Alert variant={result.content === 'Valid JSON' ? 'default' : 'destructive'}>
+                  <CheckCircle2 className="h-4 w-4" />
+                  <AlertTitle>Validation Result</AlertTitle>
+                  <AlertDescription>{result.content}</AlertDescription>
+                </Alert>
+              )}
+              {result.type === 'error' && (
+                <Alert variant="destructive">
+                  <AlertTitle>Error</AlertTitle>
+                  <AlertDescription>{result.content}</AlertDescription>
+                </Alert>
+              )}
+              {result.type === 'diff' && (
+                <SideBySideDiffViewer diff={result.content as { left: string[], right: string[] }} />
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+
