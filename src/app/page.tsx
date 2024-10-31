@@ -180,7 +180,7 @@ export default function JsonTool() {
     <div className={`min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-indigo-950 p-8 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
       <Card className="w-full max-w-4xl mx-auto shadow-2xl">
         <CardHeader className="relative">
-          <CardTitle className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500">JSON Validator and Diff Tool</CardTitle>
+          <CardTitle className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500">JSON Validator and Diff Tool | Easy Online JSON Comparison</CardTitle>
           <CardDescription className="text-lg">Validate JSON syntax and compare two JSON objects</CardDescription>
           <Button
             variant="outline"
