@@ -1,36 +1,100 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# JSON Validator and Diff Tool
 
-## Getting Started
+A sleek and professional web application for validating JSON syntax and comparing two JSON objects. This tool provides an intuitive interface for JSON operations with a modern, responsive design and dark mode support.
 
-First, run the development server:
+## Features
+
+- JSON syntax validation
+- Side-by-side JSON comparison with color-coded diff
+- Dark mode toggle
+- Responsive design
+- Smooth animations for better user experience
+
+## Technologies Used
+
+- React
+- Next.js
+- TypeScript
+- Tailwind CSS
+- shadcn/ui components
+- Framer Motion for animations
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed on your local machine:
+
+- Node.js (v14.0.0 or later)
+- npm (v6.0.0 or later) or yarn (v1.22.0 or later)
+
+## Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/yourusername/json-validator-diff-tool.git
+   cd json-validator-diff-tool
+   ```
+
+2. Install the dependencies:
+
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+## Running the Application
+
+To run the application in development mode:
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Building for Production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+To create a production build:
 
-## Learn More
+```bash
+npm run build
+# or
+yarn build
+```
 
-To learn more about Next.js, take a look at the following resources:
+To start the production server:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm start
+# or
+yarn start
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Usage
 
-## Deploy on Vercel
+1. **JSON Validation**:
+   - Select the "Validate JSON" tab
+   - Enter your JSON in the text area
+   - Click the "Validate JSON" button
+   - The result will show whether the JSON is valid or not
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2. **JSON Comparison**:
+   - Select the "Compare JSON" tab
+   - Enter two JSON objects in the left and right text areas
+   - Click the "Compare JSON" button
+   - The result will show a side-by-side diff of the two JSON objects
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3. **Dark Mode**:
+   - Click the sun/moon icon in the top right corner to toggle between light and dark modes
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is open source and available under the [MIT License](LICENSE).
+
