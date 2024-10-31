@@ -180,8 +180,17 @@ export default function JsonTool() {
     <div className={`min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-indigo-950 p-8 transition-colors duration-300 ${isDarkMode ? 'dark' : ''}`}>
       <Card className="w-full max-w-4xl mx-auto shadow-2xl">
         <CardHeader className="relative">
-          <CardTitle className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-500">JSON Validator and Diff Tool | Easy Online JSON Comparison</CardTitle>
-          <CardDescription className="text-lg">Validate JSON syntax and compare two JSON objects</CardDescription>
+          <div className="max-w-4xl">
+            {/* Remove CardTitle and use div instead since we're using our own h1 */}
+            <div className="text-2xl sm:text-3xl font-bold leading-tight sm:leading-normal">
+              <span className="bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent box-decoration-clone">
+                JSON Validator and Diff Tool | Easy Online JSON Comparison
+              </span>
+            </div>
+          </div>
+          <CardDescription className="text-base sm:text-lg mt-2">
+            Validate JSON syntax and compare two JSON objects
+          </CardDescription>
           <Button
             variant="outline"
             size="icon"
@@ -189,7 +198,7 @@ export default function JsonTool() {
             onClick={() => setIsDarkMode(!isDarkMode)}
           >
             {isDarkMode ? <Sun className="h-[1.2rem] w-[1.2rem]" /> : <Moon className="h-[1.2rem] w-[1.2rem]" />}
-          </Button>
+            </Button>
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="validate" className="space-y-4">
