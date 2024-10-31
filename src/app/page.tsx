@@ -218,13 +218,19 @@ export default function JsonTool() {
                 <Alert variant={result.content === 'Valid JSON' ? 'default' : 'destructive'}>
                   <CheckCircle2 className="h-4 w-4" />
                   <AlertTitle>Validation Result</AlertTitle>
-                  <AlertDescription>{result.content}</AlertDescription>
+                  <AlertDescription>
+                    {typeof result.content === 'string' ? result.content : ''}
+                  </AlertDescription>
                 </Alert>
               )}
               {result.type === 'error' && (
                 <Alert variant="destructive">
                   <AlertTitle>Error</AlertTitle>
-                  <AlertDescription>{result.content}</AlertDescription>
+                  <AlertDescription>
+                    {typeof result.content === 'string' 
+                      ? result.content 
+                      : JSON.stringify(result.content)}
+                  </AlertDescription>
                 </Alert>
               )}
               {result.type === 'diff' && (
